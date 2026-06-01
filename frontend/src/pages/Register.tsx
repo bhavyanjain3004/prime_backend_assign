@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, Facebook, Twitter, Chrome } from 'lucide-react';
+import { authApi } from '../api/auth';
 
 interface RegisterProps {
   onNavigate: (route: 'login' | 'register' | 'dashboard') => void;
@@ -12,11 +13,39 @@ export default function Register({ onNavigate }: RegisterProps) {
     password: '',
     confirmPassword: '',
   });
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Connect to backend auth service
-    console.log('Register attempt', formData);
+    setError(null);
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await authApi.register({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password
+      });
+      if (res.data && res.data.accessToken) {
+        localStorage.setItem('accessToken', res.data.accessToken);
+        if (res.data.refreshToken) {
+          localStorage.setItem('refreshToken', res.data.refreshToken);
+        }
+        onNavigate('dashboard');
+      }
+    } catch (err: any) {
+      if (err.response?.data?.errors) {
+        setError(err.response.data.errors.map((e: any) => e.message).join(', '));
+      } else {
+        setError(err.response?.data?.message || 'Registration failed.');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,6 +120,11 @@ export default function Register({ onNavigate }: RegisterProps) {
 
           <form onSubmit={handleSubmit}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
+              {error && (
+                <div style={{ gridColumn: '1 / -1', padding: '12px', borderRadius: '8px', background: '#FEE2E2', color: '#DC2626', fontSize: '14px', textAlign: 'center' }}>
+                  {error}
+                </div>
+              )}
               <div>
                 <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#3A4B5C', fontWeight: 500 }}>Name</label>
                 <input 
@@ -100,6 +134,7 @@ export default function Register({ onNavigate }: RegisterProps) {
                   onChange={handleChange}
                   className="pill-input" 
                   style={{ background: '#F8F5F1' }}
+                  required
                 />
               </div>
               <div>
@@ -111,6 +146,7 @@ export default function Register({ onNavigate }: RegisterProps) {
                   onChange={handleChange}
                   className="pill-input" 
                   style={{ background: '#F8F5F1' }}
+                  required
                 />
               </div>
               <div>
@@ -122,6 +158,7 @@ export default function Register({ onNavigate }: RegisterProps) {
                   onChange={handleChange}
                   className="pill-input" 
                   style={{ background: '#F8F5F1' }}
+                  required
                 />
               </div>
               <div>
@@ -133,6 +170,7 @@ export default function Register({ onNavigate }: RegisterProps) {
                   onChange={handleChange}
                   className="pill-input" 
                   style={{ background: '#F8F5F1' }}
+                  required
                 />
               </div>
             </div>
@@ -149,8 +187,8 @@ export default function Register({ onNavigate }: RegisterProps) {
               </label>
             </div>
 
-            <button type="submit" className="pill-button" style={{ width: '100%', background: '#F8F5F1', color: '#3A4B5C', padding: '14px', fontSize: '16px' }}>
-              Sign up
+            <button type="submit" disabled={loading} className="pill-button" style={{ width: '100%', background: '#F8F5F1', color: '#3A4B5C', padding: '14px', fontSize: '16px', opacity: loading ? 0.7 : 1 }}>
+              {loading ? 'Creating account...' : 'Sign up'}
             </button>
             
             <div style={{ textAlign: 'center', marginTop: '24px', fontSize: '14px', color: '#5C7186' }}>

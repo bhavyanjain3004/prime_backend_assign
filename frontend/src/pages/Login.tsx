@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Facebook, Twitter, Chrome } from 'lucide-react';
+import { authApi } from '../api/auth';
 
 interface LoginProps {
   onNavigate: (route: 'login' | 'register' | 'dashboard') => void;
@@ -10,13 +11,27 @@ export default function Login({ onNavigate }: LoginProps) {
     email: '',
     password: '',
   });
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Connect to backend auth service
-    console.log('Login attempt', formData);
-    // Temporary simulation of successful login
-    onNavigate('dashboard');
+    setError(null);
+    setLoading(true);
+    try {
+      const res = await authApi.login(formData);
+      if (res.data && res.data.accessToken) {
+        localStorage.setItem('accessToken', res.data.accessToken);
+        if (res.data.refreshToken) {
+          localStorage.setItem('refreshToken', res.data.refreshToken);
+        }
+        onNavigate('dashboard');
+      }
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,6 +105,11 @@ export default function Login({ onNavigate }: LoginProps) {
 
           <form onSubmit={handleSubmit}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '32px' }}>
+              {error && (
+                <div style={{ padding: '12px', borderRadius: '8px', background: '#FEE2E2', color: '#DC2626', fontSize: '14px', textAlign: 'center' }}>
+                  {error}
+                </div>
+              )}
               <div>
                 <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#3A4B5C', fontWeight: 500 }}>Email Address</label>
                 <input 
@@ -99,6 +119,7 @@ export default function Login({ onNavigate }: LoginProps) {
                   onChange={handleChange}
                   className="pill-input" 
                   style={{ background: '#F8F5F1' }}
+                  required
                 />
               </div>
               <div>
@@ -110,12 +131,13 @@ export default function Login({ onNavigate }: LoginProps) {
                   onChange={handleChange}
                   className="pill-input" 
                   style={{ background: '#F8F5F1' }}
+                  required
                 />
               </div>
             </div>
 
-            <button type="submit" className="pill-button" style={{ width: '100%', background: '#F8F5F1', color: '#3A4B5C', padding: '14px', fontSize: '16px' }}>
-              Log in
+            <button type="submit" disabled={loading} className="pill-button" style={{ width: '100%', background: '#F8F5F1', color: '#3A4B5C', padding: '14px', fontSize: '16px', opacity: loading ? 0.7 : 1 }}>
+              {loading ? 'Logging in...' : 'Log in'}
             </button>
             
             <div style={{ textAlign: 'center', marginTop: '24px', fontSize: '14px', color: '#5C7186' }}>
