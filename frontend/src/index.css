@@ -1,0 +1,108 @@
+:root {
+  /* Colors based on mockup */
+  --bg-primary: #DCE6EE;
+  --bg-secondary: #FFFFFF;
+  --bg-input: #F4EFEA;
+  --text-primary: #1F2937;
+  --text-secondary: #4B5563;
+  --accent-color: #3B82F6;
+  --border-color: #CBD5E1;
+
+  /* Typography */
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Geometry */
+  --radius-pill: 9999px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Utilities */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+.pill-input {
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background-color: var(--bg-input);
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+
+.pill-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent-color);
+  background-color: var(--bg-secondary);
+}
+
+.pill-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background-color: var(--bg-input);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.pill-button:hover {
+  background-color: #E6DFD8;
+  transform: translateY(-1px);
+}
+
+.pill-button.primary {
+  background-color: var(--text-primary);
+  color: white;
+}
+
+.pill-button.primary:hover {
+  background-color: #000000;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
