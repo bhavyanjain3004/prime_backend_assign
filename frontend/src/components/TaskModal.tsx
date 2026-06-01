@@ -60,7 +60,7 @@ export default function TaskModal({ onClose, onSuccess }: TaskModalProps) {
           <X size={28} />
         </button>
 
-        <h2 style={{ fontSize: '36px', marginBottom: '8px' }}>New Adventure</h2>
+        <h2 style={{ fontSize: '36px', marginBottom: '8px' }}>Create New Task</h2>
         <p style={{ color: 'var(--text-secondary)', fontSize: '16px', marginBottom: '32px' }}>Add a new task to your board.</p>
 
         {error && (
@@ -78,7 +78,7 @@ export default function TaskModal({ onClose, onSuccess }: TaskModalProps) {
               value={formData.title}
               onChange={handleChange}
               className="pill-input" 
-              placeholder="E.g. Learn a new magic trick"
+              placeholder="E.g. Complete the backend assignment"
               required
             />
           </div>

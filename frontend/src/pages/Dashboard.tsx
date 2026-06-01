@@ -59,10 +59,10 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
       <div style={{ maxWidth: '800px', margin: '40px auto', padding: '0 24px', textAlign: 'center', position: 'relative', zIndex: 10 }}>
         
         <h1 style={{ fontSize: '56px', lineHeight: '1.2', marginBottom: '16px' }}>
-          Hello! Ready to make magic?
+          Your Dashboard
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '18px', maxWidth: '500px', margin: '0 auto 48px auto' }}>
-          Manage your daily tasks, stay organized, and track your progress in a beautiful space.
+          Manage your daily tasks, stay organized, and track your progress.
         </p>
 
         {/* Action Button */}
@@ -75,7 +75,7 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
         {/* Task List Section */}
         {tasks.length > 0 ? (
           <div style={{ textAlign: 'left', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-lg)', padding: '32px', border: '2px solid var(--text-primary)', boxShadow: '4px 4px 0px rgba(62, 54, 46, 0.1)' }}>
-            <h3 style={{ fontSize: '28px', marginBottom: '24px', borderBottom: '2px dashed var(--border-color)', paddingBottom: '16px' }}>Your Adventures</h3>
+            <h3 style={{ fontSize: '28px', marginBottom: '24px', borderBottom: '2px dashed var(--border-color)', paddingBottom: '16px' }}>Recent Tasks</h3>
             <div style={{ display: 'grid', gap: '20px' }}>
               {tasks.map((task: any) => (
                 <div key={task.id} style={{ 
