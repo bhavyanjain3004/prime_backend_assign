@@ -144,13 +144,13 @@ export class AuthService {
     const accessToken = jwt.sign(
       { userId, role },
       JWT_SECRET,
-      { expiresIn: JWT_EXPIRES_IN }
+      { expiresIn: JWT_EXPIRES_IN as any }
     );
 
     const refreshToken = jwt.sign(
       { userId, role },
       JWT_REFRESH_SECRET,
-      { expiresIn: JWT_REFRESH_EXPIRES_IN }
+      { expiresIn: JWT_REFRESH_EXPIRES_IN as any }
     );
 
     return { accessToken, refreshToken };
