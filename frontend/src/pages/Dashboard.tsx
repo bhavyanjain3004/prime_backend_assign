@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { LogOut, PlusCircle, ListTodo, CheckCircle2, AlertCircle } from 'lucide-react';
 import { tasksApi } from '../api/tasks';
+import TaskModal from '../components/TaskModal';
 
 interface DashboardProps {
   onNavigate: (route: 'login' | 'register' | 'dashboard') => void;
@@ -9,6 +10,7 @@ interface DashboardProps {
 export default function Dashboard({ onNavigate }: DashboardProps) {
   const [tasks, setTasks] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchTasks = async () => {
     try {
@@ -74,10 +76,11 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
           boxShadow: '0 20px 40px -10px rgba(0,0,0,0.08), 0 0 1px rgba(0,0,0,0.1)',
           maxWidth: '400px',
           margin: '0 auto',
-          textAlign: 'left'
+          textAlign: 'left',
+          marginBottom: '48px'
         }}>
           
-          <div className="action-item" style={{ display: 'flex', alignItems: 'flex-start', padding: '16px', borderRadius: '16px', cursor: 'pointer', transition: 'background 0.2s' }}>
+          <div onClick={() => setIsModalOpen(true)} className="action-item" style={{ display: 'flex', alignItems: 'flex-start', padding: '16px', borderRadius: '16px', cursor: 'pointer', transition: 'background 0.2s' }}>
             <PlusCircle style={{ color: '#8898AA', marginRight: '16px', marginTop: '2px' }} size={24} />
             <div>
               <h4 style={{ margin: '0 0 4px 0', fontSize: '15px' }}>Create New Task</h4>
@@ -108,9 +111,51 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
               <p style={{ margin: 0, fontSize: '13px', color: '#8898AA' }}>See what you've accomplished</p>
             </div>
           </div>
-
         </div>
+
+        {/* Task List Section */}
+        {tasks.length > 0 && (
+          <div style={{ textAlign: 'left', marginTop: '48px' }}>
+            <h3 style={{ fontSize: '20px', marginBottom: '24px', color: '#3A4B5C' }}>Your Recent Tasks</h3>
+            <div style={{ display: 'grid', gap: '16px' }}>
+              {tasks.map((task: any) => (
+                <div key={task.id} style={{ 
+                  background: '#FFFFFF', 
+                  borderRadius: '16px', 
+                  padding: '20px', 
+                  border: '1px solid #E2E8F0',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center'
+                }}>
+                  <div>
+                    <h4 style={{ margin: '0 0 8px 0', color: '#1E293B', fontSize: '16px' }}>{task.title}</h4>
+                    {task.description && <p style={{ margin: 0, color: '#64748B', fontSize: '14px' }}>{task.description}</p>}
+                  </div>
+                  <div style={{ display: 'flex', gap: '12px' }}>
+                    <span style={{ padding: '6px 12px', background: '#F1F5F9', borderRadius: '20px', fontSize: '12px', fontWeight: 600, color: '#475569' }}>
+                      {task.status}
+                    </span>
+                    <span style={{ padding: '6px 12px', background: task.priority === 'HIGH' ? '#FEE2E2' : '#F1F5F9', borderRadius: '20px', fontSize: '12px', fontWeight: 600, color: task.priority === 'HIGH' ? '#DC2626' : '#475569' }}>
+                      {task.priority}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
+
+      {/* Render Modal */}
+      {isModalOpen && (
+        <TaskModal 
+          onClose={() => setIsModalOpen(false)} 
+          onSuccess={() => {
+            fetchTasks();
+          }} 
+        />
+      )}
 
       <style>
         {`
