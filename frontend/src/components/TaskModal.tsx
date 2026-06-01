@@ -44,72 +44,69 @@ export default function TaskModal({ onClose, onSuccess }: TaskModalProps) {
     <div style={{
       position: 'fixed', inset: 0, zIndex: 100,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      backgroundColor: 'rgba(203, 213, 225, 0.4)',
+      backgroundColor: 'rgba(62, 54, 46, 0.4)',
       backdropFilter: 'blur(4px)',
       padding: '20px'
     }}>
       <div className="glass-panel animate-fade-in" style={{
-        background: '#FFFFFF',
         width: '100%', maxWidth: '500px',
-        padding: '32px',
-        borderRadius: '24px',
+        padding: '40px',
         position: 'relative'
       }}>
         <button onClick={onClose} style={{
           position: 'absolute', top: '24px', right: '24px',
-          background: 'transparent', border: 'none', cursor: 'pointer', color: '#8898AA'
+          background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)'
         }}>
-          <X size={24} />
+          <X size={28} />
         </button>
 
-        <h2 style={{ fontSize: '24px', marginBottom: '8px', color: '#3A4B5C' }}>Create New Task</h2>
-        <p style={{ color: '#8898AA', fontSize: '14px', marginBottom: '24px' }}>Add a new objective to your board.</p>
+        <h2 style={{ fontSize: '36px', marginBottom: '8px' }}>New Adventure</h2>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '16px', marginBottom: '32px' }}>Add a new task to your board.</p>
 
         {error && (
-          <div style={{ padding: '12px', borderRadius: '8px', background: '#FEE2E2', color: '#DC2626', fontSize: '14px', marginBottom: '20px' }}>
+          <div style={{ padding: '12px', borderRadius: '12px', background: '#FAD4D4', color: '#D62828', fontSize: '15px', marginBottom: '24px', fontWeight: 'bold' }}>
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <div>
-            <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#3A4B5C', fontWeight: 500 }}>Task Title</label>
+            <label style={{ display: 'block', marginBottom: '6px', fontSize: '15px', fontWeight: 700 }}>Task Title</label>
             <input 
               type="text" 
               name="title"
               value={formData.title}
               onChange={handleChange}
               className="pill-input" 
-              style={{ background: '#F8F5F1' }}
-              placeholder="E.g. Complete Backend Assignment"
+              placeholder="E.g. Learn a new magic trick"
               required
             />
           </div>
           
           <div>
-            <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#3A4B5C', fontWeight: 500 }}>Description (Optional)</label>
+            <label style={{ display: 'block', marginBottom: '6px', fontSize: '15px', fontWeight: 700 }}>Description (Optional)</label>
             <textarea 
               name="description"
               value={formData.description}
               onChange={handleChange}
               className="pill-input" 
-              style={{ background: '#F8F5F1', borderRadius: '16px', minHeight: '100px', resize: 'vertical' }}
+              style={{ borderRadius: '16px', minHeight: '120px', resize: 'vertical' }}
               placeholder="Add more details..."
             />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
             <div>
-              <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#3A4B5C', fontWeight: 500 }}>Priority</label>
-              <select name="priority" value={formData.priority} onChange={handleChange} className="pill-input" style={{ background: '#F8F5F1', appearance: 'none' }}>
+              <label style={{ display: 'block', marginBottom: '6px', fontSize: '15px', fontWeight: 700 }}>Priority</label>
+              <select name="priority" value={formData.priority} onChange={handleChange} className="pill-input" style={{ appearance: 'none', cursor: 'pointer' }}>
                 <option value="LOW">Low</option>
                 <option value="MEDIUM">Medium</option>
                 <option value="HIGH">High</option>
               </select>
             </div>
             <div>
-              <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#3A4B5C', fontWeight: 500 }}>Status</label>
-              <select name="status" value={formData.status} onChange={handleChange} className="pill-input" style={{ background: '#F8F5F1', appearance: 'none' }}>
+              <label style={{ display: 'block', marginBottom: '6px', fontSize: '15px', fontWeight: 700 }}>Status</label>
+              <select name="status" value={formData.status} onChange={handleChange} className="pill-input" style={{ appearance: 'none', cursor: 'pointer' }}>
                 <option value="PENDING">Pending</option>
                 <option value="IN_PROGRESS">In Progress</option>
                 <option value="COMPLETED">Completed</option>
@@ -117,7 +114,7 @@ export default function TaskModal({ onClose, onSuccess }: TaskModalProps) {
             </div>
           </div>
 
-          <button type="submit" disabled={loading} className="pill-button primary" style={{ width: '100%', marginTop: '16px', padding: '14px' }}>
+          <button type="submit" disabled={loading} className="pill-button primary" style={{ width: '100%', marginTop: '24px', padding: '16px', fontSize: '18px' }}>
             {loading ? 'Creating...' : 'Create Task'}
           </button>
         </form>

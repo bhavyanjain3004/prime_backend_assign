@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { LogOut, PlusCircle, ListTodo, CheckCircle2, AlertCircle } from 'lucide-react';
+import { LogOut, PlusCircle, CheckCircle2, Cloud, Sun, Star } from 'lucide-react';
 import { tasksApi } from '../api/tasks';
 import TaskModal from '../components/TaskModal';
 
@@ -35,114 +35,80 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#FFFFFF', position: 'relative' }}>
-      {/* Subtle Grid Background Pattern */}
-      <div style={{
-        position: 'absolute', inset: 0, opacity: 0.03, pointerEvents: 'none',
-        backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
-        backgroundSize: '40px 40px'
-      }}></div>
-
+    <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-primary)', position: 'relative', overflowX: 'hidden' }}>
+      
+      {/* Decorative Doodles */}
+      <Cloud className="floating-doodle" size={64} color="#A7C7E7" style={{ top: '10%', left: '5%', animationDelay: '0.2s' }} />
+      <Sun className="floating-doodle" size={72} color="#F4A261" style={{ top: '15%', right: '8%', animationDelay: '1.2s' }} />
+      <Star className="floating-doodle" size={48} color="#E76F51" style={{ bottom: '15%', left: '10%', animationDelay: '0.8s' }} />
+      
       {/* Top Navbar */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px 48px', position: 'relative', zIndex: 10 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: '#1F2937', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>T</div>
-          <span style={{ fontWeight: 700, fontSize: '18px' }}>Taskly</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--text-primary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontFamily: 'var(--font-heading)', fontSize: '24px' }}>T</div>
+          <span style={{ fontWeight: 700, fontSize: '24px', fontFamily: 'var(--font-heading)', letterSpacing: '1px' }}>Taskly</span>
         </div>
         <div style={{ display: 'flex', gap: '16px' }}>
-          <button style={{ background: 'transparent', border: 'none', fontWeight: 500, cursor: 'pointer', color: '#4B5563' }}>Blog</button>
-          <button onClick={handleLogout} className="pill-button primary" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 20px' }}>
-            <LogOut size={16} /> Logout
+          <button onClick={handleLogout} className="pill-button" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 24px', background: 'transparent', border: '2px solid var(--text-primary)' }}>
+            <LogOut size={18} /> Logout
           </button>
         </div>
       </div>
 
       {/* Main Content Area */}
-      <div style={{ maxWidth: '800px', margin: '60px auto', padding: '0 24px', textAlign: 'center', position: 'relative', zIndex: 10 }}>
+      <div style={{ maxWidth: '800px', margin: '40px auto', padding: '0 24px', textAlign: 'center', position: 'relative', zIndex: 10 }}>
         
-        <p style={{ fontFamily: 'var(--font-heading)', fontStyle: 'italic', color: '#8898AA', marginBottom: '16px' }}>Stay organized!</p>
-        <h1 style={{ fontSize: '48px', lineHeight: '1.2', marginBottom: '16px', letterSpacing: '-0.02em' }}>
-          Your Tasks Are Waiting.<br/>Are You Ready?
+        <h1 style={{ fontSize: '56px', lineHeight: '1.2', marginBottom: '16px' }}>
+          Hello! Ready to make magic?
         </h1>
-        <p style={{ color: '#5C7186', fontSize: '16px', maxWidth: '500px', margin: '0 auto 48px auto' }}>
-          Manage your daily objectives, stay on top of priorities, and track your progress effortlessly with Taskly.
+        <p style={{ color: 'var(--text-secondary)', fontSize: '18px', maxWidth: '500px', margin: '0 auto 48px auto' }}>
+          Manage your daily tasks, stay organized, and track your progress in a beautiful space.
         </p>
 
-        {/* Action Menu (Mockup Style) */}
-        <div style={{ 
-          background: '#FFFFFF', 
-          borderRadius: '24px', 
-          padding: '16px', 
-          boxShadow: '0 20px 40px -10px rgba(0,0,0,0.08), 0 0 1px rgba(0,0,0,0.1)',
-          maxWidth: '400px',
-          margin: '0 auto',
-          textAlign: 'left',
-          marginBottom: '48px'
-        }}>
-          
-          <div onClick={() => setIsModalOpen(true)} className="action-item" style={{ display: 'flex', alignItems: 'flex-start', padding: '16px', borderRadius: '16px', cursor: 'pointer', transition: 'background 0.2s' }}>
-            <PlusCircle style={{ color: '#8898AA', marginRight: '16px', marginTop: '2px' }} size={24} />
-            <div>
-              <h4 style={{ margin: '0 0 4px 0', fontSize: '15px' }}>Create New Task</h4>
-              <p style={{ margin: 0, fontSize: '13px', color: '#8898AA' }}>Add a new objective to your list</p>
-            </div>
-          </div>
-          
-          <div className="action-item" style={{ display: 'flex', alignItems: 'flex-start', padding: '16px', borderRadius: '16px', cursor: 'pointer', transition: 'background 0.2s' }}>
-            <AlertCircle style={{ color: '#8898AA', marginRight: '16px', marginTop: '2px' }} size={24} />
-            <div>
-              <h4 style={{ margin: '0 0 4px 0', fontSize: '15px' }}>High Priority</h4>
-              <p style={{ margin: 0, fontSize: '13px', color: '#8898AA' }}>View urgent tasks needing attention</p>
-            </div>
-          </div>
-
-          <div className="action-item" style={{ display: 'flex', alignItems: 'flex-start', padding: '16px', borderRadius: '16px', cursor: 'pointer', transition: 'background 0.2s' }}>
-            <ListTodo style={{ color: '#8898AA', marginRight: '16px', marginTop: '2px' }} size={24} />
-            <div>
-              <h4 style={{ margin: '0 0 4px 0', fontSize: '15px' }}>All Pending</h4>
-              <p style={{ margin: 0, fontSize: '13px', color: '#8898AA' }}>Review everything on your plate</p>
-            </div>
-          </div>
-
-          <div className="action-item" style={{ display: 'flex', alignItems: 'flex-start', padding: '16px', borderRadius: '16px', cursor: 'pointer', transition: 'background 0.2s' }}>
-            <CheckCircle2 style={{ color: '#8898AA', marginRight: '16px', marginTop: '2px' }} size={24} />
-            <div>
-              <h4 style={{ margin: '0 0 4px 0', fontSize: '15px' }}>Completed</h4>
-              <p style={{ margin: 0, fontSize: '13px', color: '#8898AA' }}>See what you've accomplished</p>
-            </div>
-          </div>
+        {/* Action Button */}
+        <div style={{ marginBottom: '60px' }}>
+           <button onClick={() => setIsModalOpen(true)} className="pill-button primary" style={{ fontSize: '20px', padding: '16px 32px', display: 'inline-flex', gap: '12px', alignItems: 'center' }}>
+             <PlusCircle size={24} /> Create a New Task
+           </button>
         </div>
 
         {/* Task List Section */}
-        {tasks.length > 0 && (
-          <div style={{ textAlign: 'left', marginTop: '48px' }}>
-            <h3 style={{ fontSize: '20px', marginBottom: '24px', color: '#3A4B5C' }}>Your Recent Tasks</h3>
-            <div style={{ display: 'grid', gap: '16px' }}>
+        {tasks.length > 0 ? (
+          <div style={{ textAlign: 'left', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-lg)', padding: '32px', border: '2px solid var(--text-primary)', boxShadow: '4px 4px 0px rgba(62, 54, 46, 0.1)' }}>
+            <h3 style={{ fontSize: '28px', marginBottom: '24px', borderBottom: '2px dashed var(--border-color)', paddingBottom: '16px' }}>Your Adventures</h3>
+            <div style={{ display: 'grid', gap: '20px' }}>
               {tasks.map((task: any) => (
                 <div key={task.id} style={{ 
-                  background: '#FFFFFF', 
+                  background: 'var(--bg-primary)', 
                   borderRadius: '16px', 
-                  padding: '20px', 
-                  border: '1px solid #E2E8F0',
+                  padding: '24px', 
+                  border: '2px solid var(--border-color)',
                   display: 'flex',
                   justifyContent: 'space-between',
-                  alignItems: 'center'
-                }}>
+                  alignItems: 'center',
+                  transition: 'all 0.2s'
+                }} className="task-card">
                   <div>
-                    <h4 style={{ margin: '0 0 8px 0', color: '#1E293B', fontSize: '16px' }}>{task.title}</h4>
-                    {task.description && <p style={{ margin: 0, color: '#64748B', fontSize: '14px' }}>{task.description}</p>}
+                    <h4 style={{ margin: '0 0 8px 0', fontSize: '20px' }}>{task.title}</h4>
+                    {task.description && <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '15px' }}>{task.description}</p>}
                   </div>
                   <div style={{ display: 'flex', gap: '12px' }}>
-                    <span style={{ padding: '6px 12px', background: '#F1F5F9', borderRadius: '20px', fontSize: '12px', fontWeight: 600, color: '#475569' }}>
+                    <span style={{ padding: '8px 16px', background: '#F4EBE1', borderRadius: '20px', fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)' }}>
                       {task.status}
                     </span>
-                    <span style={{ padding: '6px 12px', background: task.priority === 'HIGH' ? '#FEE2E2' : '#F1F5F9', borderRadius: '20px', fontSize: '12px', fontWeight: 600, color: task.priority === 'HIGH' ? '#DC2626' : '#475569' }}>
+                    <span style={{ padding: '8px 16px', background: task.priority === 'HIGH' ? '#FAD4D4' : '#E2D5C8', borderRadius: '20px', fontSize: '14px', fontWeight: 700, color: task.priority === 'HIGH' ? '#D62828' : 'var(--text-primary)' }}>
                       {task.priority}
                     </span>
                   </div>
                 </div>
               ))}
             </div>
+          </div>
+        ) : (
+          <div style={{ padding: '60px', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-lg)', border: '2px dashed var(--text-primary)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <CheckCircle2 size={48} color="#A7C7E7" style={{ marginBottom: '16px' }} />
+            <h3 style={{ fontSize: '24px' }}>All caught up!</h3>
+            <p style={{ color: 'var(--text-secondary)' }}>You don't have any tasks right now.</p>
           </div>
         )}
       </div>
@@ -151,16 +117,15 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
       {isModalOpen && (
         <TaskModal 
           onClose={() => setIsModalOpen(false)} 
-          onSuccess={() => {
-            fetchTasks();
-          }} 
+          onSuccess={() => fetchTasks()} 
         />
       )}
 
       <style>
         {`
-          .action-item:hover {
-            background-color: #F8F9FA;
+          .task-card:hover {
+            border-color: var(--text-primary);
+            transform: translateX(4px);
           }
         `}
       </style>

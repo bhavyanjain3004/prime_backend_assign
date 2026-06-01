@@ -1,16 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap');
+
 :root {
-  /* Colors based on mockup */
-  --bg-primary: #DCE6EE;
+  /* Pastel Doodle Theme Colors */
+  --bg-primary: #FFF9EF; /* Warm cream */
   --bg-secondary: #FFFFFF;
-  --bg-input: #F4EFEA;
-  --text-primary: #1F2937;
-  --text-secondary: #4B5563;
-  --accent-color: #3B82F6;
-  --border-color: #CBD5E1;
+  --bg-input: #F4EBE1; /* Slightly darker cream for inputs */
+  --text-primary: #3E362E; /* Warm dark brown */
+  --text-secondary: #7A6B5D;
+  --accent-color: #E76F51; /* Soft burnt orange */
+  --border-color: #E2D5C8;
 
   /* Typography */
-  --font-heading: 'Outfit', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  --font-heading: 'Caveat', cursive; /* Playful handwritten font */
+  --font-body: 'Nunito', sans-serif; /* Soft rounded sans-serif */
 
   /* Geometry */
   --radius-pill: 9999px;
@@ -31,38 +33,39 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-primary);
+  letter-spacing: 0.5px;
 }
 
 /* Utilities */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: var(--bg-secondary);
+  border: 2px solid var(--text-primary);
   border-radius: var(--radius-lg);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  box-shadow: 4px 4px 0px rgba(62, 54, 46, 0.1);
 }
 
 .pill-input {
   width: 100%;
-  padding: 12px 20px;
+  padding: 14px 20px;
   border-radius: var(--radius-pill);
-  border: none;
+  border: 2px solid transparent;
   background-color: var(--bg-input);
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: 15px;
   color: var(--text-primary);
   transition: all 0.2s ease;
 }
 
 .pill-input:focus {
   outline: none;
-  box-shadow: 0 0 0 2px var(--accent-color);
+  border-color: var(--text-primary);
   background-color: var(--bg-secondary);
 }
 
@@ -70,13 +73,13 @@ h1, h2, h3, h4, h5, h6 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 24px;
+  padding: 14px 28px;
   border-radius: var(--radius-pill);
-  border: none;
+  border: 2px solid transparent;
   background-color: var(--bg-input);
   font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 14px;
+  font-weight: 700;
+  font-size: 16px;
   color: var(--text-primary);
   cursor: pointer;
   transition: all 0.2s ease;
@@ -84,20 +87,34 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .pill-button:hover {
-  background-color: #E6DFD8;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 .pill-button.primary {
   background-color: var(--text-primary);
-  color: white;
+  color: #FFF9EF;
 }
 
 .pill-button.primary:hover {
-  background-color: #000000;
+  background-color: #2A241F;
+  box-shadow: 0 4px 12px rgba(62, 54, 46, 0.2);
 }
 
-/* Animations */
+/* Doodle Animations */
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.floating-doodle {
+  position: absolute;
+  animation: float 6s ease-in-out infinite;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
