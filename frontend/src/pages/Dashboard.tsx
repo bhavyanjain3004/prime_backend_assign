@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { LogOut, PlusCircle, CheckCircle2, Cloud, Sun, Star } from 'lucide-react';
 import { tasksApi } from '../api/tasks';
+import { authApi } from '../api/auth';
 import TaskModal from '../components/TaskModal';
 
 interface DashboardProps {
@@ -11,6 +12,7 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
   const [tasks, setTasks] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [userRole, setUserRole] = useState<string | null>(null);
 
   const fetchTasks = async () => {
     try {
@@ -24,8 +26,18 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
     }
   };
 
+  const fetchProfile = async () => {
+    try {
+      const res = await authApi.getProfile();
+      if (res.data) setUserRole(res.data.role);
+    } catch (error) {
+      console.error('Failed to fetch profile', error);
+    }
+  };
+
   useEffect(() => {
     fetchTasks();
+    fetchProfile();
   }, []);
 
   const handleLogout = () => {
@@ -47,6 +59,20 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--text-primary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontFamily: 'var(--font-heading)', fontSize: '24px' }}>T</div>
           <span style={{ fontWeight: 700, fontSize: '24px', fontFamily: 'var(--font-heading)', letterSpacing: '1px' }}>Taskly</span>
+          {userRole && (
+            <span style={{ 
+              marginLeft: '8px', 
+              padding: '4px 12px', 
+              background: userRole === 'ADMIN' ? '#F4A261' : 'var(--border-color)', 
+              color: userRole === 'ADMIN' ? '#FFF9EF' : 'var(--text-secondary)',
+              borderRadius: '20px', 
+              fontSize: '12px', 
+              fontWeight: 700,
+              letterSpacing: '1px'
+            }}>
+              {userRole === 'ADMIN' ? 'ADMIN MODE' : 'USER'}
+            </span>
+          )}
         </div>
         <div style={{ display: 'flex', gap: '16px' }}>
           <button onClick={handleLogout} className="pill-button" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 24px', background: 'transparent', border: '2px solid var(--text-primary)' }}>
