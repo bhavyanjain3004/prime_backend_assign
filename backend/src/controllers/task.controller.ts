@@ -81,7 +81,7 @@ export class TaskController {
       }
 
       const task = await TaskService.getTaskById(
-        req.params.id,
+        req.params.id as string,
         req.user.id,
         req.user.role
       );
@@ -109,7 +109,7 @@ export class TaskController {
       }
 
       const task = await TaskService.updateTask(
-        req.params.id,
+        req.params.id as string,
         req.user.id,
         req.user.role,
         req.body
@@ -138,7 +138,7 @@ export class TaskController {
         throw new UnauthorizedError('Not authenticated');
       }
 
-      await TaskService.deleteTask(req.params.id, req.user.id, req.user.role);
+      await TaskService.deleteTask(req.params.id as string, req.user.id, req.user.role);
 
       res.status(200).json({
         status: 'success',
